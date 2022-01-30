@@ -9,10 +9,8 @@ interface ActiveLinkProps extends LinkProps {
 
 export function ActiveLink({ children, activeClassName, ...rest }: ActiveLinkProps) {
     const { asPath } = useRouter();
-
     const className = asPath === rest.href ? activeClassName : '';
 
-    // className={ asPath === '/posts' ? styles.active : '' }
     return (
         <Link { ...rest }>
             {

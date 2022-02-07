@@ -11,7 +11,6 @@ export default NextAuth({
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      // scope: 'read:user'
     })
   ],
   jwt: {
@@ -19,6 +18,39 @@ export default NextAuth({
     maxAge: 60 * 60 * 24 * 30,
   },
   callbacks: {
+    async session({ session }) {
+      try {
+        const userActiveSubscription = await fauna.query(
+          q.Get(
+            q.Intersection([
+              q.Match(
+                q.Index('subscription_by_user_ref'),
+                q.Select(
+                  "ref",
+                  q.Get(
+                    q.Match(
+                      q.Index('user_by_email'),
+                      q.Casefold(session.user.email)
+                    )
+                  )
+                )
+              ),
+              q.Match(
+                q.Index('subscription_by_status'),
+                "active"
+              )
+            ])
+          )
+        );
+  
+        return {
+          ...session,
+          activeSubscription: userActiveSubscription
+        };
+      } catch (error) {
+        return session;
+      }
+    },
     async signIn({ user }) {
       const { email } = user;
 

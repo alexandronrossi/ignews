@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { query as q } from 'faunadb';;
+import { query as q } from 'faunadb';
 
 import { stripe } from '../../services/stripe';
 import { fauna } from '../../services/fauna';
@@ -31,8 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         let customerId = user.data.stripe_customer_id;
         if (!customerId) {
             const stripeCustomer = await stripe.customers.create({
-                email: session.user.email,
-                // metadata: session
+                email: session.user.email
             });
 
             await fauna.query(
@@ -62,7 +61,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             mode: 'subscription',
             allow_promotion_codes: true,
             success_url: process.env.STRIPE_SUCCESS_URL,
-            cancel_url: process.env.STRIPE_SUCCESS_URL
+            cancel_url: process.env.STRIPE_CANCEL_URL
         });
 
         return res.status(200).json({ sessionId: stripeCheckoutSession.id });

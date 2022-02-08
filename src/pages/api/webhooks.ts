@@ -77,7 +77,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             console.log('Evento recebido', event);
         }
 
-        res.status(200).json({ received: true });
+        res.json({ received: true });
     } else {
         res.setHeader('Allow', 'POST');
         res.status(405).end('Method not allowed');

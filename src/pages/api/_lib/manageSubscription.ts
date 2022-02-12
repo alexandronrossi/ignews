@@ -24,10 +24,12 @@ export async function saveSubscription(
 
     const subscriptionData = {
         id: subscription.id,
-        userId: userRef,
+        user_id: userRef,
         status: subscription.status,
         price_id: subscription.items.data[0].price.id
     }
+
+    console.log(subscriptionData);
 
     if (createAction) {
         await fauna.query(

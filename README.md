@@ -52,14 +52,16 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
     - Stripe
         - STRIPE_API_KEY
         - NEXT_PUBLIC_STRIPE_PUBLIC_KEY
-        - STRIPE_WEBHOOK_SECRET
         - STRIPE_SUCCESS_URL
         - STRIPE_CANCEL_URL
+        - STRIPE_WEBHOOK_SECRET
     - Github
         - GITHUB_CLIENT_ID
         - GITHUB_CLIENT_SECRET
     - Faunadb
         - FAUNADB_KEY
+    - JWT
+        - SIGNING_KEY
     - Prismic CMS
         - PRISMIC_ENDPOINT
         - PRIMIC_ACCESS_TOKEN
@@ -88,7 +90,7 @@ $ yarn
 # Execute a aplicação em modo de desenvolvimento
 $ yarn dev
 
-# A aplicação será aberta na porta:3000 - acesse [http://localhost:3000](http://localhost:3000)
+# A aplicação será aberta na porta:3000 - acesse http://localhost:3000
 
 # Execute em um terminal a parte, o webhook de test do stripe para escutar as actions do usuário no stripe.
 $ stripe listen --forward-to localhost:3000/api/webhooks
